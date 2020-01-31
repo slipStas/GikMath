@@ -65,7 +65,9 @@ class StartViewController: UIViewController {
     var counter = 0.0
     var timeArray: [Double] = []
 
-    func startTimer() {
+    func startTimer(tableView: UITableView) {
+        
+        tableView.isScrollEnabled = false
         counter = 0.0
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
@@ -105,9 +107,9 @@ class StartViewController: UIViewController {
         
         return text
     }
-    func timerStop() {
+    func timerStop(tableView: UITableView) {
+        tableView.isScrollEnabled = true
         timer.invalidate()
-        
     }
     
     @IBOutlet weak var oneButton: UIButton!
@@ -146,8 +148,7 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func stopButton(_ sender: Any) {
-        timer.invalidate()
-        
+        timerStop(tableView: historyTableView)
     }
     
     //MARK: check button
@@ -331,7 +332,7 @@ class StartViewController: UIViewController {
         theTaskLabel.text?.removeAll()
         
         printLabelResult()
-        startTimer()
+        startTimer(tableView: historyTableView)
     }
     
     override func viewDidLoad() {
