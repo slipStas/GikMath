@@ -143,11 +143,13 @@ class StartViewController: UIViewController {
     
     
     @IBAction func resetResultsButton(_ sender: Any) {
+        feedback()
         countFalse = 0
         countTrue = 0
     }
     
     @IBAction func stopButton(_ sender: Any) {
+        feedback()
         timerStop(tableView: historyTableView)
     }
     
@@ -218,12 +220,14 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func backspaseButton(_ sender: Any) {
+        feedback()
         if (answerLabel.text?.count)! > 0 {
             answerLabel.text!.removeLast()
         }
     }
     
     @IBAction func pressedNumber(_ sender: Any) {
+        feedback()
         if answerLabel.text == "введите ответ" {
             answerLabel.text!.removeAll(keepingCapacity: false)
             answerLabel.alpha = 1
@@ -335,6 +339,11 @@ class StartViewController: UIViewController {
         
         printLabelResult()
         startTimer(tableView: historyTableView)
+    }
+    func feedback() {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
     }
     
     override func viewDidLoad() {
