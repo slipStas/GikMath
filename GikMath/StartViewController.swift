@@ -154,6 +154,7 @@ class StartViewController: UIViewController {
     //MARK: check button
     @IBAction func checkButton(_ sender: Any) {
         
+        let generator = UINotificationFeedbackGenerator()
         guard timer.isValid else {
             
             generateMath()
@@ -162,7 +163,7 @@ class StartViewController: UIViewController {
         }
         self.timeArray.append(counter)
         if Int(answerLabel.text!) == result {
-            
+            generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
             timer.invalidate()
             
@@ -180,7 +181,8 @@ class StartViewController: UIViewController {
             }
             
         } else {
-            
+            generator.notificationOccurred(.error)
+
             timer.invalidate()
             switch answerLabel.text {
             case "введите ответ", "":
