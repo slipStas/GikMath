@@ -221,12 +221,13 @@ class StartViewController: UIViewController {
     
     @IBAction func backspaseButton(_ sender: Any) {
         feedback()
-        if (answerLabel.text?.count)! > 0 {
+        if (answerLabel.text?.count)! > 0 && answerLabel.text != "введите ответ" {
             answerLabel.text!.removeLast()
         }
     }
     
     @IBAction func pressedNumber(_ sender: Any) {
+        
         feedback()
         if answerLabel.text == "введите ответ" {
             answerLabel.text!.removeAll(keepingCapacity: false)
@@ -236,7 +237,6 @@ class StartViewController: UIViewController {
         if (sender as AnyObject).titleLabel?.text != nil {
             answerLabel.text! += (sender as AnyObject).titleLabel!.text!
         }
-        
     }
     
     func whatTheOperation() {
