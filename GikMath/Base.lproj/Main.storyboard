@@ -409,6 +409,7 @@
                         <outlet property="minusButton" destination="0tP-Sm-Xjv" id="6Xc-JM-J44"/>
                         <outlet property="nineButtton" destination="bdY-25-dNr" id="g1x-qm-wNE"/>
                         <outlet property="oneButton" destination="0O1-V6-nbF" id="IOF-o3-lWN"/>
+                        <outlet property="resetResultsButton" destination="fWo-lj-9rs" id="K66-2T-Lbw"/>
                         <outlet property="sevenButton" destination="hGE-bd-JjL" id="RPc-h0-kfb"/>
                         <outlet property="sixButton" destination="LT1-sS-1qa" id="X53-SK-7Yg"/>
                         <outlet property="startStopButton" destination="jLd-BD-yjZ" id="sSQ-hy-5Hd"/>

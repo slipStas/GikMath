@@ -67,6 +67,7 @@ class StartViewController: UIViewController {
 
     func startTimer(tableView: UITableView) {
         generateMath()
+        resetResultsButton.isEnabled = true
         tableView.isScrollEnabled = false
         counter = 0.0
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
@@ -130,6 +131,7 @@ class StartViewController: UIViewController {
     @IBOutlet weak var zeroButton: UIButton!
     @IBOutlet weak var backspaseButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet weak var resetResultsButton: UIButton!
     
     
     @IBOutlet weak var startStopButton: UIButton!
@@ -393,6 +395,7 @@ class StartViewController: UIViewController {
         super.viewDidLoad()
 
         disableNumbersButtons()
+        resetResultsButton.isEnabled = false
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
         For starting tap "Start"
