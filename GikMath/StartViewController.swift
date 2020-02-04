@@ -236,7 +236,7 @@ class StartViewController: UIViewController {
     @IBAction func pressedNumber(_ sender: Any) {
         feedback()
         
-        if answerLabel.text!.first != nil && (sender as AnyObject).titleLabel!.text! == "-" {
+        if answerLabel.text!.first != nil && answerLabel.text != "введите ответ" && (sender as AnyObject).titleLabel!.text! == "-" {
             return
         }
         if answerLabel.text == "введите ответ" {
