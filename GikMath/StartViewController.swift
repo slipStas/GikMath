@@ -61,7 +61,7 @@ class StartViewController: UIViewController {
         }
     }
     
-    var timer = Timer()
+    var timer : Timer? = nil
     var counter = 0.0
     var timeArray: [Double] = []
 
@@ -76,7 +76,15 @@ class StartViewController: UIViewController {
         
         timerLabel.text = decimalToString(counter: counter)
     }
-    
+    func timerStop(tableView: UITableView) {
+        tableView.isScrollEnabled = true
+        guard timer != nil else {
+            print("timer == nil")
+            return
+        }
+        timer!.invalidate()
+        timer = nil
+    }
     func decimalToString(counter : Double) -> String {
         var text = ""
         
@@ -107,10 +115,7 @@ class StartViewController: UIViewController {
         
         return text
     }
-    func timerStop(tableView: UITableView) {
-        tableView.isScrollEnabled = true
-        timer.invalidate()
-    }
+    
     
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var twoButton: UIButton!
@@ -157,7 +162,7 @@ class StartViewController: UIViewController {
     @IBAction func checkButton(_ sender: Any) {
         
         let generator = UINotificationFeedbackGenerator()
-        guard timer.isValid else {
+        guard timer?.isValid != nil else {
             
             generateMath()
             
@@ -167,7 +172,8 @@ class StartViewController: UIViewController {
         if Int(answerLabel.text!) == result {
             generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
-            timer.invalidate()
+            timer!.invalidate()
+            timer = nil
             
             historyTableView.beginUpdates()
             historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
@@ -185,7 +191,8 @@ class StartViewController: UIViewController {
         } else {
             generator.notificationOccurred(.error)
 
-            timer.invalidate()
+            timer!.invalidate()
+            timer = nil
             switch answerLabel.text {
             case "введите ответ", "":
                 historyArray.insert(Math(value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
