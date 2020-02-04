@@ -28,6 +28,7 @@ class StartViewController: UIViewController {
         willSet {
             Session.shared.countTrueAnswers = newValue
             countTrueLabel.text = String(newValue)
+            
             if newValue == maxTrueOrFalseCount {
                 countTrueLabel.text = String(0)
                 countFalseLabel.text = String(0)
@@ -36,6 +37,7 @@ class StartViewController: UIViewController {
         }
         didSet {
             UIView.transition(with: countTrueLabel, duration: 0.7, options: .transitionFlipFromBottom, animations: {})
+            
             if countTrue == maxTrueOrFalseCount || countFalse == maxTrueOrFalseCount {
                 countTrue = 0
                 countFalse = 0
@@ -46,6 +48,7 @@ class StartViewController: UIViewController {
         willSet {
             Session.shared.countFalseAnswers = newValue
             countFalseLabel.text = String(newValue)
+            
             if newValue == maxTrueOrFalseCount {
                 countTrueLabel.text = String(0)
                 countFalseLabel.text = String(0)
@@ -54,6 +57,7 @@ class StartViewController: UIViewController {
         }
         didSet {
             UIView.transition(with: countFalseLabel, duration: 0.7, options: .transitionFlipFromBottom, animations: {})
+            
             if countFalse == maxTrueOrFalseCount || countTrue == maxTrueOrFalseCount {
                 countTrue = 0
                 countFalse = 0
@@ -89,7 +93,6 @@ class StartViewController: UIViewController {
     }
     func decimalToString(counter : Double) -> String {
         var text = ""
-        
         let flooredCounter = Int(floor(counter))
         let minute = (flooredCounter % 3600) / 60
         var minuteString: String {
@@ -112,12 +115,9 @@ class StartViewController: UIViewController {
             }
         }
         let deciSecond = String(format: "%.2f", counter).components(separatedBy: ".").last
-        
         text = "\(minuteString):\(secString).\(deciSecond!)"
-        
         return text
     }
-    
     
     @IBOutlet weak var oneButton: UIButton!
     @IBOutlet weak var twoButton: UIButton!
@@ -160,6 +160,7 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func stopButton(_ sender: Any) {
+        
         if timer != nil {
             feedback()
             timerStop(tableView: historyTableView)
@@ -173,21 +174,19 @@ class StartViewController: UIViewController {
     
     //MARK: check button
     @IBAction func checkButton(_ sender: Any) {
-        
         let generator = UINotificationFeedbackGenerator()
         guard timer != nil else { return }
-        
         self.timeArray.append(counter)
+        
         if Int(answerLabel.text!) == result {
             generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
             timerStop(tableView: historyTableView)
-            
             historyTableView.beginUpdates()
             historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
             historyTableView.endUpdates()
-            
             systemMessagesLabel.text?.removeAll()
+            
             if Session.shared.countTrueAnswers < maxTrueOrFalseCount {
                 countTrue += 1
             } else {
@@ -197,7 +196,6 @@ class StartViewController: UIViewController {
             }
         } else {
             generator.notificationOccurred(.error)
-
             timer!.invalidate()
             timer = nil
             switch answerLabel.text {
@@ -212,38 +210,33 @@ class StartViewController: UIViewController {
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             }
-            
             systemMessagesLabel.text = "Неверно, правильный ответ: \(result)"
             
             if Session.shared.countFalseAnswers < maxTrueOrFalseCount {
-                
                 countFalse += 1
-                
             } else {
-                
                 systemMessagesLabel.text? += "\nДостигнуто максимальное количество неверных ответов счетчики сбросились"
                 countTrue = 0
                 countFalse = 0
-                
             }
         }
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
         startTimer(tableView: historyTableView)
-
     }
     
     @IBAction func backspaseButton(_ sender: Any) {
         feedback()
+        
         if (answerLabel.text?.count)! > 0 && answerLabel.text != "введите ответ" {
             answerLabel.text!.removeLast()
         }
     }
     
     @IBAction func pressedNumber(_ sender: Any) {
-        
         feedback()
-        if answerLabel.text!.first == "-" && (sender as AnyObject).titleLabel!.text! == "-" {
+        
+        if answerLabel.text!.first != nil && (sender as AnyObject).titleLabel!.text! == "-" {
             return
         }
         if answerLabel.text == "введите ответ" {
@@ -257,7 +250,6 @@ class StartViewController: UIViewController {
     }
     
     func whatTheOperation() {
-        
         let rand = arc4random_uniform(4)
         
         switch rand {
@@ -272,7 +264,6 @@ class StartViewController: UIViewController {
         default:
             break
         }
-        
     }
     
     func noZero(number : Int) -> Int {
@@ -285,28 +276,17 @@ class StartViewController: UIViewController {
     }
     
     func generateFirstSecondNumbersNoDiv() {
-        
         leftNumber = Int(arc4random_uniform(100))
         rightNumber = Int(arc4random_uniform(100))
-        
     }
-    
     func generateFirstSecondNumbersForDiv() {
-        
         leftNumber = noZero(number: (Int(arc4random_uniform(10))))
-        
         rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(10))))
-        
     }
-    
     func generateFirstSecondNumbersForMult() {
-        
         leftNumber = noZero(number: Int(arc4random_uniform(10)))
-        
         rightNumber = noZero(number: Int(arc4random_uniform(10)))
-        
     }
-    
     func generateRandomNumbers() {
         
         switch operation {
@@ -345,7 +325,6 @@ class StartViewController: UIViewController {
         }
     }
     func generateMath() {
-        
         answerLabel.text = "введите ответ"
         answerLabel.alpha = 0.5
         
@@ -355,7 +334,6 @@ class StartViewController: UIViewController {
         theTaskLabel.text?.removeAll()
         
         printLabelResult()
-        //startTimer(tableView: historyTableView)
     }
     func feedback() {
         let generator = UIImpactFeedbackGenerator(style: .light)
@@ -411,9 +389,7 @@ class StartViewController: UIViewController {
         avarageTime.text?.removeAll()
         historyTableView.dataSource = self
         historyTableView.delegate = self
-        
     }
-
 }
 
 //MARK: Delegate
@@ -470,7 +446,6 @@ extension StartViewController: UITableViewDataSource {
         case .red:
             cell.historyLabel.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         }
-        
         return cell
     }
 }
