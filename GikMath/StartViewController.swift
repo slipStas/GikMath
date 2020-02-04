@@ -9,7 +9,7 @@
 import UIKit
 
 class StartViewController: UIViewController {
-
+    
     enum Operation: String {
         case subt = "-"
         case add = "+"
@@ -17,8 +17,19 @@ class StartViewController: UIViewController {
         case div = "/"
     }
     
+    enum Difficulty {
+        case easy
+        case simple
+        case normal
+        case medium
+        case hard
+        case veryHard
+        case extreme
+    }
+    
     var historyArray : [Math] = []
     
+    var difficultyLevel = Difficulty.easy
     var leftNumber: Int = 0
     var rightNumber: Int = 0
     var operation = ""
@@ -250,7 +261,16 @@ class StartViewController: UIViewController {
     }
     
     func whatTheOperation() {
-        let rand = arc4random_uniform(4)
+        var rand : UInt32 = 0
+        
+        switch self.difficultyLevel {
+        case .easy, .simple, .normal:
+            rand = arc4random_uniform(2)
+        case .medium, .hard:
+            rand = arc4random_uniform(3)
+        case .extreme, .veryHard:
+            rand = arc4random_uniform(4)
+        }
         
         switch rand {
         case 0:
@@ -276,8 +296,30 @@ class StartViewController: UIViewController {
     }
     
     func generateFirstSecondNumbersNoDiv() {
-        leftNumber = Int(arc4random_uniform(100))
-        rightNumber = Int(arc4random_uniform(100))
+        
+        switch self.difficultyLevel {
+        case .easy:
+            leftNumber = Int(arc4random_uniform(10))
+            rightNumber = Int(arc4random_uniform(10))
+        case .simple:
+            leftNumber = Int(arc4random_uniform(30))
+            rightNumber = Int(arc4random_uniform(30))
+        case .normal:
+            leftNumber = Int(arc4random_uniform(90))
+            rightNumber = Int(arc4random_uniform(90))
+        case .medium:
+            leftNumber = Int(arc4random_uniform(150))
+            rightNumber = Int(arc4random_uniform(150))
+        case .hard:
+            leftNumber = Int(arc4random_uniform(300))
+            rightNumber = Int(arc4random_uniform(300))
+        case .veryHard:
+            leftNumber = Int(arc4random_uniform(500))
+            rightNumber = Int(arc4random_uniform(500))
+        case .extreme:
+            leftNumber = Int(arc4random_uniform(1000))
+            rightNumber = Int(arc4random_uniform(1000))
+        }
     }
     func generateFirstSecondNumbersForDiv() {
         leftNumber = noZero(number: (Int(arc4random_uniform(10))))
