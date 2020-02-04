@@ -129,6 +129,7 @@ class StartViewController: UIViewController {
     @IBOutlet weak var nineButtton: UIButton!
     @IBOutlet weak var zeroButton: UIButton!
     @IBOutlet weak var backspaseButton: UIButton!
+    @IBOutlet weak var minusButton: UIButton!
     
     
     @IBOutlet weak var startStopButton: UIButton!
@@ -160,9 +161,11 @@ class StartViewController: UIViewController {
         if timer != nil {
             feedback()
             timerStop(tableView: historyTableView)
+            disableNumbersButtons()
         } else {
             feedback()
             startTimer(tableView: historyTableView)
+            enableNumbersButtons()
         }
     }
     
@@ -238,6 +241,9 @@ class StartViewController: UIViewController {
     @IBAction func pressedNumber(_ sender: Any) {
         
         feedback()
+        if answerLabel.text!.first == "-" && (sender as AnyObject).titleLabel!.text! == "-" {
+            return
+        }
         if answerLabel.text == "введите ответ" {
             answerLabel.text!.removeAll(keepingCapacity: false)
             answerLabel.alpha = 1
@@ -354,10 +360,39 @@ class StartViewController: UIViewController {
         generator.prepare()
         generator.impactOccurred()
     }
+    func disableNumbersButtons() {
+        self.oneButton.isEnabled = false
+        self.twoButton.isEnabled = false
+        self.threeButton.isEnabled = false
+        self.fourButton.isEnabled = false
+        self.fiveButton.isEnabled = false
+        self.sixButton.isEnabled = false
+        self.sevenButton.isEnabled = false
+        self.eightButton.isEnabled = false
+        self.nineButtton.isEnabled = false
+        self.zeroButton.isEnabled = false
+        self.minusButton.isEnabled = false
+        self.backspaseButton.isEnabled = false
+    }
+    func enableNumbersButtons() {
+        self.oneButton.isEnabled = true
+        self.twoButton.isEnabled = true
+        self.threeButton.isEnabled = true
+        self.fourButton.isEnabled = true
+        self.fiveButton.isEnabled = true
+        self.sixButton.isEnabled = true
+        self.sevenButton.isEnabled = true
+        self.eightButton.isEnabled = true
+        self.nineButtton.isEnabled = true
+        self.zeroButton.isEnabled = true
+        self.minusButton.isEnabled = true
+        self.backspaseButton.isEnabled = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        disableNumbersButtons()
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
         For starting tap "Start"
@@ -365,6 +400,8 @@ class StartViewController: UIViewController {
         answerLabel.text?.removeAll()
         avarageTime.text?.removeAll()
         timerLabel.text?.removeAll()
+        countTrueLabel.text?.removeAll()
+        countFalseLabel.text?.removeAll()
         
         historyTableView.rowHeight = 30
         systemMessagesLabel.text?.removeAll()

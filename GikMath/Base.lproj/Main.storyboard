@@ -406,6 +406,7 @@
                         <outlet property="fiveButton" destination="x8K-pg-Uw5" id="XvJ-ve-TEk"/>
                         <outlet property="fourButton" destination="LTV-V3-fmR" id="fuD-u0-Ir4"/>
                         <outlet property="historyTableView" destination="3s2-iK-VuX" id="rOs-1P-NN7"/>
+                        <outlet property="minusButton" destination="0tP-Sm-Xjv" id="6Xc-JM-J44"/>
                         <outlet property="nineButtton" destination="bdY-25-dNr" id="g1x-qm-wNE"/>
                         <outlet property="oneButton" destination="0O1-V6-nbF" id="IOF-o3-lWN"/>
                         <outlet property="sevenButton" destination="hGE-bd-JjL" id="RPc-h0-kfb"/>
