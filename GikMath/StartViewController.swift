@@ -322,17 +322,39 @@ class StartViewController: UIViewController {
         }
     }
     func generateFirstSecondNumbersForDiv() {
-        leftNumber = noZero(number: (Int(arc4random_uniform(10))))
-        rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(10))))
+        switch self.difficultyLevel {
+        case .veryHard:
+            leftNumber = noZero(number: (Int(arc4random_uniform(10))))
+            rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(10))))
+        case .extreme:
+            leftNumber = noZero(number: (Int(arc4random_uniform(20))))
+            rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(20))))
+        default:
+            return
+        }
     }
     func generateFirstSecondNumbersForMult() {
-        leftNumber = noZero(number: Int(arc4random_uniform(10)))
-        rightNumber = noZero(number: Int(arc4random_uniform(10)))
+        
+        switch self.difficultyLevel {
+        case .medium:
+            leftNumber = noZero(number: Int(arc4random_uniform(5)))
+            rightNumber = noZero(number: Int(arc4random_uniform(5)))
+        case .hard:
+            leftNumber = noZero(number: Int(arc4random_uniform(10)))
+            rightNumber = noZero(number: Int(arc4random_uniform(10)))
+        case .veryHard:
+            leftNumber = noZero(number: Int(arc4random_uniform(15)))
+            rightNumber = noZero(number: Int(arc4random_uniform(15)))
+        case .extreme:
+            leftNumber = noZero(number: Int(arc4random_uniform(20)))
+            rightNumber = noZero(number: Int(arc4random_uniform(20)))
+        default:
+            return
+        }
     }
     func generateRandomNumbers() {
         
         switch operation {
-            
         case "-":
             generateFirstSecondNumbersNoDiv()
             
@@ -367,6 +389,25 @@ class StartViewController: UIViewController {
         }
     }
     func generateMath() {
+        
+        switch self.countTrue {
+        case 0...5:
+            self.difficultyLevel = .easy
+        case 6...10:
+            self.difficultyLevel = .simple
+        case 11...20:
+            self.difficultyLevel = .normal
+        case 21...30:
+            self.difficultyLevel = .medium
+        case 31...40:
+            self.difficultyLevel = .hard
+        case 41...60:
+            self.difficultyLevel = .veryHard
+        case 61...maxTrueOrFalseCount:
+            self.difficultyLevel = .extreme
+        default:
+            return
+        }
         answerLabel.text = "введите ответ"
         answerLabel.alpha = 0.5
         
