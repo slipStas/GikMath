@@ -66,14 +66,14 @@ class StartViewController: UIViewController {
     var timeArray: [Double] = []
 
     func startTimer(tableView: UITableView) {
-        
+        generateMath()
         tableView.isScrollEnabled = false
         counter = 0.0
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
     @objc func runTimer() {
         counter += 0.01
-        
+        startStopButton.setTitle("Stop", for: .normal)
         timerLabel.text = decimalToString(counter: counter)
     }
     func timerStop(tableView: UITableView) {
@@ -82,6 +82,7 @@ class StartViewController: UIViewController {
             print("timer == nil")
             return
         }
+        startStopButton.setTitle("Start", for: .normal)
         timer!.invalidate()
         timer = nil
     }
@@ -130,6 +131,8 @@ class StartViewController: UIViewController {
     @IBOutlet weak var backspaseButton: UIButton!
     
     
+    @IBOutlet weak var startStopButton: UIButton!
+    
     @IBOutlet weak var theTaskLabel: UILabel!
     
     @IBOutlet weak var answerLabel: UILabel!
@@ -154,26 +157,26 @@ class StartViewController: UIViewController {
     }
     
     @IBAction func stopButton(_ sender: Any) {
-        feedback()
-        timerStop(tableView: historyTableView)
+        if timer != nil {
+            feedback()
+            timerStop(tableView: historyTableView)
+        } else {
+            feedback()
+            startTimer(tableView: historyTableView)
+        }
     }
     
     //MARK: check button
     @IBAction func checkButton(_ sender: Any) {
         
         let generator = UINotificationFeedbackGenerator()
-        guard timer?.isValid != nil else {
-            
-            generateMath()
-            
-            return
-        }
+        guard timer != nil else { return }
+        
         self.timeArray.append(counter)
         if Int(answerLabel.text!) == result {
             generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
-            timer!.invalidate()
-            timer = nil
+            timerStop(tableView: historyTableView)
             
             historyTableView.beginUpdates()
             historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
@@ -187,7 +190,6 @@ class StartViewController: UIViewController {
                 countTrue = 0
                 countFalse = 0
             }
-            
         } else {
             generator.notificationOccurred(.error)
 
@@ -222,7 +224,7 @@ class StartViewController: UIViewController {
         }
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
-        generateMath()
+        startTimer(tableView: historyTableView)
 
     }
     
@@ -345,7 +347,7 @@ class StartViewController: UIViewController {
         theTaskLabel.text?.removeAll()
         
         printLabelResult()
-        startTimer(tableView: historyTableView)
+        //startTimer(tableView: historyTableView)
     }
     func feedback() {
         let generator = UIImpactFeedbackGenerator(style: .light)
@@ -356,10 +358,17 @@ class StartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        startStopButton.setTitle("Start", for: .normal)
+        theTaskLabel.text = """
+        For starting tap "Start"
+        """
+        answerLabel.text?.removeAll()
+        avarageTime.text?.removeAll()
+        timerLabel.text?.removeAll()
+        
         historyTableView.rowHeight = 30
         systemMessagesLabel.text?.removeAll()
         avarageTime.text?.removeAll()
-        generateMath()
         historyTableView.dataSource = self
         historyTableView.delegate = self
         

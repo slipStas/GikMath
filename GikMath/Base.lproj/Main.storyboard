@@ -206,18 +206,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="P3f-Ds-Vh7">
                                 <rect key="frame" x="0.0" y="498.5" width="414" height="51.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BKk-fu-vmF">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLd-BD-yjZ">
                                         <rect key="frame" x="0.0" y="0.0" width="206" height="51.5"/>
                                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="BKk-fu-vmF" secondAttribute="height" multiplier="4:1" id="Lpl-xF-Tee"/>
+                                            <constraint firstAttribute="width" secondItem="jLd-BD-yjZ" secondAttribute="height" multiplier="4:1" id="kE1-39-Xz0"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="30"/>
-                                        <state key="normal" title="stop">
-                                            <color key="titleColor" red="1" green="0.83137254901960778" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <state key="normal" title="Start">
+                                            <color key="titleColor" red="1" green="0.83137254900000002" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="stopButton:" destination="BYZ-38-t0r" eventType="touchDown" id="VGB-Rg-EcI"/>
+                                            <action selector="stopButton:" destination="BYZ-38-t0r" eventType="touchDown" id="bEb-bi-k63"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C5p-VY-2X1">
@@ -231,7 +231,7 @@
                                             <color key="titleColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="checkButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Da-PI-V6r"/>
+                                            <action selector="checkButton:" destination="BYZ-38-t0r" eventType="touchDown" id="fLJ-5h-9Tv"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -410,6 +410,7 @@
                         <outlet property="oneButton" destination="0O1-V6-nbF" id="IOF-o3-lWN"/>
                         <outlet property="sevenButton" destination="hGE-bd-JjL" id="RPc-h0-kfb"/>
                         <outlet property="sixButton" destination="LT1-sS-1qa" id="X53-SK-7Yg"/>
+                        <outlet property="startStopButton" destination="jLd-BD-yjZ" id="sSQ-hy-5Hd"/>
                         <outlet property="systemMessagesLabel" destination="ljC-n1-7gh" id="eeX-5e-PyC"/>
                         <outlet property="theTaskLabel" destination="Hla-H7-E7O" id="Ma2-Of-jT5"/>
                         <outlet property="threeButton" destination="USV-Ja-xuT" id="0L0-4R-bcv"/>
