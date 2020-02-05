@@ -356,20 +356,32 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAf-84-dpK">
+                                <rect key="frame" x="8" y="250.5" width="118" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="7Pf-ff-jsh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="jq0-OB-GgB" firstAttribute="top" secondItem="P3f-Ds-Vh7" secondAttribute="bottom" constant="2" id="0GR-Vm-eUO"/>
+                            <constraint firstItem="ZPS-vN-S6r" firstAttribute="top" secondItem="XAf-84-dpK" secondAttribute="bottom" constant="8" id="32j-fJ-H9j"/>
                             <constraint firstItem="cbc-hy-ffP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="5u4-N0-5ig"/>
                             <constraint firstItem="3s2-iK-VuX" firstAttribute="leading" secondItem="lVx-Q0-8CP" secondAttribute="trailing" constant="2" id="8TK-bj-2I5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3s2-iK-VuX" secondAttribute="trailing" id="A18-9k-jmg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SK2-jU-bYe" secondAttribute="trailing" constant="8" id="A39-C1-Gmm"/>
                             <constraint firstItem="k9w-dB-iZm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="FEq-Yz-Nh0"/>
                             <constraint firstItem="Hla-H7-E7O" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="Ft5-vg-qlA"/>
+                            <constraint firstItem="3s2-iK-VuX" firstAttribute="leading" secondItem="XAf-84-dpK" secondAttribute="trailing" constant="8" id="Gpk-FX-dKF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ljC-n1-7gh" secondAttribute="trailing" constant="8" id="HMD-er-wgp"/>
                             <constraint firstItem="SK2-jU-bYe" firstAttribute="centerY" secondItem="Hla-H7-E7O" secondAttribute="centerY" id="J1Q-MM-gtF"/>
                             <constraint firstItem="fWo-lj-9rs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JNu-uI-pxd"/>
                             <constraint firstItem="3s2-iK-VuX" firstAttribute="leading" secondItem="cbc-hy-ffP" secondAttribute="trailing" constant="2" id="NHN-Gx-Gcr"/>
+                            <constraint firstItem="XAf-84-dpK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="PZW-DW-PXF"/>
                             <constraint firstItem="ZPS-vN-S6r" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="Qng-yM-DTk"/>
                             <constraint firstItem="SK2-jU-bYe" firstAttribute="leading" secondItem="Hla-H7-E7O" secondAttribute="trailing" constant="8" id="Su7-23-txx"/>
                             <constraint firstItem="cbc-hy-ffP" firstAttribute="top" secondItem="ZPS-vN-S6r" secondAttribute="bottom" constant="8" id="Ta3-e4-LeJ"/>
@@ -406,6 +418,7 @@
                         <outlet property="fiveButton" destination="x8K-pg-Uw5" id="XvJ-ve-TEk"/>
                         <outlet property="fourButton" destination="LTV-V3-fmR" id="fuD-u0-Ir4"/>
                         <outlet property="historyTableView" destination="3s2-iK-VuX" id="rOs-1P-NN7"/>
+                        <outlet property="levelLabel" destination="XAf-84-dpK" id="sr6-Tx-M8X"/>
                         <outlet property="minusButton" destination="0tP-Sm-Xjv" id="6Xc-JM-J44"/>
                         <outlet property="nineButtton" destination="bdY-25-dNr" id="g1x-qm-wNE"/>
                         <outlet property="oneButton" destination="0O1-V6-nbF" id="IOF-o3-lWN"/>

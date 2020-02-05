@@ -17,19 +17,43 @@ class StartViewController: UIViewController {
         case div = "/"
     }
     
-    enum Difficulty {
-        case easy
-        case simple
-        case normal
-        case medium
-        case hard
-        case veryHard
-        case extreme
+    enum Difficulty: String {
+        case easy = "easy"
+        case simple = "simple"
+        case normal = "normal"
+        case medium = "meduim"
+        case hard = "hard"
+        case veryHard = "very hard"
+        case extreme = "extreme"
     }
     
     var historyArray : [Math] = []
+    var counterArray : [Int] = []
     
-    var difficultyLevel = Difficulty.easy
+    var counterBeetwenTrueAndFalse = 0
+    var avarageCounterValue : Double {
+        get {
+            if counterArray.count == 0 {
+                return 0.0
+            } else {
+                var count = 0
+                var total = 0
+                for i in counterArray {
+                    total += i
+                    count += 1
+                }
+                print(counterArray)
+                let avarage = Double(total) / Double(count)
+                return Double(String(format: "%.2f", avarage))!
+            }
+        }
+    }
+    var difficultyLevel = Difficulty.easy {
+        didSet {
+            print(self.difficultyLevel.rawValue)
+            print(avarageCounterValue)
+        }
+    }
     var leftNumber: Int = 0
     var rightNumber: Int = 0
     var operation = ""
@@ -173,11 +197,15 @@ class StartViewController: UIViewController {
     
     @IBOutlet weak var avarageTime: UILabel!
     
+    @IBOutlet weak var levelLabel: UILabel!
+    
     
     @IBAction func resetResultsButton(_ sender: Any) {
         feedback()
         countFalse = 0
         countTrue = 0
+        counterArray.removeAll()
+        counterBeetwenTrueAndFalse = 0
     }
     
     @IBAction func stopButton(_ sender: Any) {
@@ -200,6 +228,11 @@ class StartViewController: UIViewController {
         self.timeArray.append(counter)
         
         if Int(answerLabel.text!) == result {
+            counterBeetwenTrueAndFalse += 1
+            if counterArray.count > 0 {
+                counterArray.removeLast()
+            }
+            counterArray.append(counterBeetwenTrueAndFalse)
             generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
             timerStop(tableView: historyTableView)
@@ -217,6 +250,8 @@ class StartViewController: UIViewController {
             }
         } else {
             generator.notificationOccurred(.error)
+            counterBeetwenTrueAndFalse = 0
+            counterArray.append(counterBeetwenTrueAndFalse)
             timer!.invalidate()
             timer = nil
             switch answerLabel.text {
@@ -334,11 +369,11 @@ class StartViewController: UIViewController {
     func generateFirstSecondNumbersForDiv() {
         switch self.difficultyLevel {
         case .medium, .hard:
-            leftNumber = noZero(number: (Int(arc4random_uniform(5))))
-            rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(5))))
-        case .veryHard:
             leftNumber = noZero(number: (Int(arc4random_uniform(10))))
             rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(10))))
+        case .veryHard:
+            leftNumber = noZero(number: (Int(arc4random_uniform(13))))
+            rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(13))))
         case .extreme:
             leftNumber = noZero(number: (Int(arc4random_uniform(20))))
             rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(20))))
@@ -353,11 +388,11 @@ class StartViewController: UIViewController {
             leftNumber = noZero(number: Int(arc4random_uniform(5)))
             rightNumber = noZero(number: Int(arc4random_uniform(5)))
         case .medium:
-            leftNumber = noZero(number: Int(arc4random_uniform(7)))
-            rightNumber = noZero(number: Int(arc4random_uniform(7)))
-        case .hard:
             leftNumber = noZero(number: Int(arc4random_uniform(10)))
             rightNumber = noZero(number: Int(arc4random_uniform(10)))
+        case .hard:
+            leftNumber = noZero(number: Int(arc4random_uniform(12)))
+            rightNumber = noZero(number: Int(arc4random_uniform(12)))
         case .veryHard:
             leftNumber = noZero(number: Int(arc4random_uniform(15)))
             rightNumber = noZero(number: Int(arc4random_uniform(15)))
@@ -406,20 +441,20 @@ class StartViewController: UIViewController {
     }
     func generateMath() {
         
-        switch self.countTrue {
-        case 0...5:
+        switch self.avarageCounterValue {
+        case 0...4:
             self.difficultyLevel = .easy
-        case 6...10:
+        case 4.01...7:
             self.difficultyLevel = .simple
-        case 11...15:
+        case 7.01...11:
             self.difficultyLevel = .normal
-        case 16...25:
+        case 11.01...17:
             self.difficultyLevel = .medium
-        case 26...35:
+        case 17.01...23:
             self.difficultyLevel = .hard
-        case 36...50:
+        case 23.01...30:
             self.difficultyLevel = .veryHard
-        case 51...maxTrueOrFalseCount:
+        case 30.01...Double(maxTrueOrFalseCount):
             self.difficultyLevel = .extreme
         default:
             return
@@ -428,6 +463,7 @@ class StartViewController: UIViewController {
         countTrueLabel.text? = String(countTrue)
         countFalseLabel.text? = String(countFalse)
         answerLabel.text = "введите ответ"
+        levelLabel.text = self.difficultyLevel.rawValue
         answerLabel.alpha = 0.5
         
         whatTheOperation()
@@ -485,6 +521,7 @@ class StartViewController: UIViewController {
         timerLabel.text?.removeAll()
         countTrueLabel.text?.removeAll()
         countFalseLabel.text?.removeAll()
+        levelLabel.text?.removeAll()
         
         historyTableView.rowHeight = 30
         systemMessagesLabel.text?.removeAll()
