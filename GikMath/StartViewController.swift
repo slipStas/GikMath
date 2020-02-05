@@ -77,7 +77,17 @@ class StartViewController: UIViewController {
     }
     
     var timer : Timer? = nil
-    var counter = 0.0
+    var counter = 0.0 {
+        didSet {
+            if self.counter > 3599.99 {
+                countFalse += 1
+                self.counter = 0.0
+                timer!.invalidate()
+                timer = nil
+                startTimer(tableView: historyTableView)
+            }
+        }
+    }
     var timeArray: [Double] = []
 
     func startTimer(tableView: UITableView) {
