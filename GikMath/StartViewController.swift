@@ -201,7 +201,7 @@ class StartViewController: UIViewController {
             if Session.shared.countTrueAnswers < maxTrueOrFalseCount {
                 countTrue += 1
             } else {
-                systemMessagesLabel.text = "Достигнуто максимальное количество верных ответов счетчики сбросились"
+                systemMessagesLabel.text = "The maximum number of correct answers has been reached and counters are dropped"
                 countTrue = 0
                 countFalse = 0
             }
@@ -221,12 +221,12 @@ class StartViewController: UIViewController {
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             }
-            systemMessagesLabel.text = "Неверно, правильный ответ: \(result)"
+            systemMessagesLabel.text = "You are wrong, correct answer: \(result)"
             
             if Session.shared.countFalseAnswers < maxTrueOrFalseCount {
                 countFalse += 1
             } else {
-                systemMessagesLabel.text? += "\nДостигнуто максимальное количество неверных ответов счетчики сбросились"
+                systemMessagesLabel.text? += "\nThe maximum number of incorrect answers has been reached and counters are dropped"
                 countTrue = 0
                 countFalse = 0
             }
@@ -264,11 +264,11 @@ class StartViewController: UIViewController {
         var rand : UInt32 = 0
         
         switch self.difficultyLevel {
-        case .easy, .simple, .normal:
+        case .easy, .simple:
             rand = arc4random_uniform(2)
-        case .medium, .hard:
+        case .normal:
             rand = arc4random_uniform(3)
-        case .extreme, .veryHard:
+        case .medium, .hard, .extreme, .veryHard:
             rand = arc4random_uniform(4)
         }
         
@@ -305,24 +305,27 @@ class StartViewController: UIViewController {
             leftNumber = Int(arc4random_uniform(30))
             rightNumber = Int(arc4random_uniform(30))
         case .normal:
+            leftNumber = Int(arc4random_uniform(60))
+            rightNumber = Int(arc4random_uniform(60))
+        case .medium:
             leftNumber = Int(arc4random_uniform(90))
             rightNumber = Int(arc4random_uniform(90))
-        case .medium:
+        case .hard:
+            leftNumber = Int(arc4random_uniform(110))
+            rightNumber = Int(arc4random_uniform(110))
+        case .veryHard:
             leftNumber = Int(arc4random_uniform(150))
             rightNumber = Int(arc4random_uniform(150))
-        case .hard:
-            leftNumber = Int(arc4random_uniform(300))
-            rightNumber = Int(arc4random_uniform(300))
-        case .veryHard:
-            leftNumber = Int(arc4random_uniform(500))
-            rightNumber = Int(arc4random_uniform(500))
         case .extreme:
-            leftNumber = Int(arc4random_uniform(1000))
-            rightNumber = Int(arc4random_uniform(1000))
+            leftNumber = Int(arc4random_uniform(200))
+            rightNumber = Int(arc4random_uniform(200))
         }
     }
     func generateFirstSecondNumbersForDiv() {
         switch self.difficultyLevel {
+        case .medium, .hard:
+            leftNumber = noZero(number: (Int(arc4random_uniform(5))))
+            rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(5))))
         case .veryHard:
             leftNumber = noZero(number: (Int(arc4random_uniform(10))))
             rightNumber = leftNumber * noZero(number: (Int(arc4random_uniform(10))))
@@ -336,9 +339,12 @@ class StartViewController: UIViewController {
     func generateFirstSecondNumbersForMult() {
         
         switch self.difficultyLevel {
-        case .medium:
+        case .normal:
             leftNumber = noZero(number: Int(arc4random_uniform(5)))
             rightNumber = noZero(number: Int(arc4random_uniform(5)))
+        case .medium:
+            leftNumber = noZero(number: Int(arc4random_uniform(7)))
+            rightNumber = noZero(number: Int(arc4random_uniform(7)))
         case .hard:
             leftNumber = noZero(number: Int(arc4random_uniform(10)))
             rightNumber = noZero(number: Int(arc4random_uniform(10)))
@@ -395,19 +401,22 @@ class StartViewController: UIViewController {
             self.difficultyLevel = .easy
         case 6...10:
             self.difficultyLevel = .simple
-        case 11...20:
+        case 11...15:
             self.difficultyLevel = .normal
-        case 21...30:
+        case 16...25:
             self.difficultyLevel = .medium
-        case 31...40:
+        case 26...35:
             self.difficultyLevel = .hard
-        case 41...60:
+        case 36...50:
             self.difficultyLevel = .veryHard
-        case 61...maxTrueOrFalseCount:
+        case 51...maxTrueOrFalseCount:
             self.difficultyLevel = .extreme
         default:
             return
         }
+        
+        countTrueLabel.text? = String(countTrue)
+        countFalseLabel.text? = String(countFalse)
         answerLabel.text = "введите ответ"
         answerLabel.alpha = 0.5
         
@@ -509,15 +518,15 @@ extension StartViewController: UITableViewDataSource {
         cell.historyLabel.text = historyArray[indexPath.row].value + "   " + historyArray[indexPath.row].time
         
         switch avarageTime {
-        case 0...1:
+        case 0...2:
             self.avarageTime.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        case 1.001...3:
+        case 2...3.5:
             self.avarageTime.textColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)
-        case 3.001...5:
+        case 3.501...7:
             self.avarageTime.textColor = #colorLiteral(red: 0.5738074183, green: 0.5655357838, blue: 0, alpha: 1)
-        case 5.001...8:
+        case 7...10:
             self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
-        case 8.001...12:
+        case 10...15:
             self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         default:
             self.avarageTime.textColor = #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)
