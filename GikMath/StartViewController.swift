@@ -230,13 +230,14 @@ class StartViewController: UIViewController {
         countTrue = 0
         counterArray.removeAll()
         counterBeetwenTrueAndFalse = 0
-        historyTableView.beginUpdates()
-
-        for i in 0...historyArray.count - 1 {
-            historyTableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+        if !historyArray.isEmpty {
+            historyTableView.beginUpdates()
+            for i in 0...historyArray.count - 1 {
+                historyTableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+            }
+            historyArray.removeAll()
+            historyTableView.endUpdates()
         }
-        historyArray.removeAll()
-        historyTableView.endUpdates()
     }
     
     @IBAction func stopButton(_ sender: Any) {
