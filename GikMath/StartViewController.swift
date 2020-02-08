@@ -287,7 +287,13 @@ class StartViewController: UIViewController {
             generator.notificationOccurred(.error)
             counterBeetwenTrueAndFalse = 0
             counterArray.append(counterBeetwenTrueAndFalse)
-            self.counter += 1.0
+            
+            if self.counter <= 2.0 {
+                self.counter +=  (2.0 - self.counter ) * 1.3 + 0.5
+            } else {
+                self.counter += self.counter * 1.3
+            }
+            
             self.timeArray.append(counter)
             timer!.invalidate()
             timer = nil
