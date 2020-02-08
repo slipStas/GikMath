@@ -47,8 +47,7 @@ class HistoryTableViewCell: UITableViewCell {
                                    animations: {
                                     self.historyLabel.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
 
-                    })
+            })
         }
-        
     }
 }

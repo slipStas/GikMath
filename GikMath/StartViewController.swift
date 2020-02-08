@@ -52,6 +52,31 @@ class StartViewController: UIViewController {
         didSet {
             print(self.difficultyLevel.rawValue)
             print(avarageCounterValue)
+            
+
+            UIView.transition(with: levelLabel,
+                              duration: 0.7,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                switch self.difficultyLevel {
+                case .easy:
+                    self.levelLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+                case .simple:
+                    self.levelLabel.textColor = #colorLiteral(red: 0, green: 0.5647058824, blue: 0.3176470588, alpha: 1)
+                case .normal:
+                    self.levelLabel.textColor = #colorLiteral(red: 0.5725490196, green: 0.5647058824, blue: 0, alpha: 1)
+                case .medium:
+                    self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.5764705882, blue: 0, alpha: 1)
+                case .hard:
+                    self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.1490196078, blue: 0, alpha: 1)
+                case .veryHard:
+                    self.levelLabel.textColor = #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
+                case .extreme:
+                    self.levelLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.06666666667, blue: 0, alpha: 1)
+                }
+            })
+
+            
         }
     }
     var leftNumber: Int = 0
@@ -116,7 +141,6 @@ class StartViewController: UIViewController {
 
     func startTimer(tableView: UITableView) {
         generateMath()
-        resetResultsButton.isEnabled = true
         tableView.isScrollEnabled = false
         counter = 0.0
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
@@ -206,6 +230,13 @@ class StartViewController: UIViewController {
         countTrue = 0
         counterArray.removeAll()
         counterBeetwenTrueAndFalse = 0
+        historyTableView.beginUpdates()
+
+        for i in 0...historyArray.count - 1 {
+            historyTableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+        }
+        historyArray.removeAll()
+        historyTableView.endUpdates()
     }
     
     @IBAction func stopButton(_ sender: Any) {
@@ -223,9 +254,9 @@ class StartViewController: UIViewController {
     
     //MARK: check button
     @IBAction func checkButton(_ sender: Any) {
+        
         let generator = UINotificationFeedbackGenerator()
         guard timer != nil else { return }
-        self.timeArray.append(counter)
         
         if Int(answerLabel.text!) == result {
             counterBeetwenTrueAndFalse += 1
@@ -235,10 +266,13 @@ class StartViewController: UIViewController {
             counterArray.append(counterBeetwenTrueAndFalse)
             generator.notificationOccurred(.success)
             historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
+            self.timeArray.append(counter)
             timerStop(tableView: historyTableView)
+            
             historyTableView.beginUpdates()
             historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
             historyTableView.endUpdates()
+            
             systemMessagesLabel.text?.removeAll()
             
             if Session.shared.countTrueAnswers < maxTrueOrFalseCount {
@@ -252,16 +286,20 @@ class StartViewController: UIViewController {
             generator.notificationOccurred(.error)
             counterBeetwenTrueAndFalse = 0
             counterArray.append(counterBeetwenTrueAndFalse)
+            self.counter += 1.0
+            self.timeArray.append(counter)
             timer!.invalidate()
             timer = nil
             switch answerLabel.text {
             case "введите ответ", "":
                 historyArray.insert(Math(value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
+                
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             default:
                 historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter), at: 0)
+                
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
@@ -491,6 +529,7 @@ class StartViewController: UIViewController {
         self.zeroButton.isEnabled = false
         self.minusButton.isEnabled = false
         self.backspaseButton.isEnabled = false
+        self.resetResultsButton.isEnabled = true
     }
     func enableNumbersButtons() {
         self.oneButton.isEnabled = true
@@ -505,13 +544,13 @@ class StartViewController: UIViewController {
         self.zeroButton.isEnabled = true
         self.minusButton.isEnabled = true
         self.backspaseButton.isEnabled = true
+        self.resetResultsButton.isEnabled = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         disableNumbersButtons()
-        resetResultsButton.isEnabled = false
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
         For starting tap "Start"
@@ -568,17 +607,17 @@ extension StartViewController: UITableViewDataSource {
         case 0...2:
             self.avarageTime.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         case 2...3.5:
-            self.avarageTime.textColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)
+            self.avarageTime.textColor = #colorLiteral(red: 0, green: 0.5647058824, blue: 0.3176470588, alpha: 1)
         case 3.501...7:
-            self.avarageTime.textColor = #colorLiteral(red: 0.5738074183, green: 0.5655357838, blue: 0, alpha: 1)
+            self.avarageTime.textColor = #colorLiteral(red: 0.5725490196, green: 0.5647058824, blue: 0, alpha: 1)
         case 7...10:
-            self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.5781051517, blue: 0, alpha: 1)
+            self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.5764705882, blue: 0, alpha: 1)
         case 10...15:
-            self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            self.avarageTime.textColor = #colorLiteral(red: 1, green: 0.1490196078, blue: 0, alpha: 1)
         default:
-            self.avarageTime.textColor = #colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 1)
-
+            self.avarageTime.textColor = #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
         }
+        
         switch historyArray[indexPath.row].color {
         case .green:
             cell.historyLabel.textColor = #colorLiteral(red: 0.3084011078, green: 0.5618229508, blue: 0, alpha: 1)
