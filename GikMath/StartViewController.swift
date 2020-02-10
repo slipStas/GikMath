@@ -597,7 +597,6 @@ extension StartViewController: UITableViewDataSource {
         let cell = historyTableView.dequeueReusableCell(withIdentifier: "historyTableCell", for: indexPath) as! HistoryTableViewCell
         
         var count = 0.0
-        //var secondCounter = ""
         var totalTime = 0.0
         var avarageTime : Double {
             get {
