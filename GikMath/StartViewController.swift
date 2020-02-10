@@ -604,7 +604,7 @@ extension StartViewController: UITableViewDataSource {
             }
         }
         for i in historyArray {
-            totalTime += i.timeCounter
+            totalTime += i.timeCounter + (i.secondCounter ?? 0.0)
             count += 1
         }
         
