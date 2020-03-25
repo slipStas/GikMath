@@ -29,6 +29,7 @@ class StartViewController: UIViewController {
     
     var historyArray : [Math] = []
     var counterArray : [Int] = []
+    var id = 0
     
     var counterBeetwenTrueAndFalse = 0
     var avarageCounterValue : Double {
@@ -266,7 +267,7 @@ class StartViewController: UIViewController {
             }
             counterArray.append(counterBeetwenTrueAndFalse)
             generator.notificationOccurred(.success)
-            historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: nil), at: 0)
+            historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: nil), at: 0)
             self.timeArray.append(counter)
             timerStop(tableView: historyTableView)
             
@@ -300,13 +301,13 @@ class StartViewController: UIViewController {
             timer = nil
             switch answerLabel.text {
             case "введите ответ", "":
-                historyArray.insert(Math(value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
+                historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
                 
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             default:
-                historyArray.insert(Math(value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
+                historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
                 
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
@@ -325,6 +326,7 @@ class StartViewController: UIViewController {
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
         startTimer(tableView: historyTableView)
+        self.id += 1
     }
     
     @IBAction func backspaseButton(_ sender: Any) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E4BAA72242B41B500CEC587 /* TableViewResultsData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8E4BAA70242B41B500CEC587 /* TableViewResultsData.xcdatamodeld */; };
 		8EE1C02C23D4703F00BC7DA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE1C02B23D4703F00BC7DA1 /* AppDelegate.swift */; };
 		8EE1C02E23D4703F00BC7DA1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE1C02D23D4703F00BC7DA1 /* SceneDelegate.swift */; };
 		8EE1C03323D4703F00BC7DA1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1C03123D4703F00BC7DA1 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E4BAA71242B41B500CEC587 /* TableViewResultsData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TableViewResultsData.xcdatamodel; sourceTree = "<group>"; };
 		8EE1C02823D4703F00BC7DA1 /* GikMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GikMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE1C02B23D4703F00BC7DA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EE1C02D23D4703F00BC7DA1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				8EE1C04723D4DA2100BC7DA1 /* ValueInHistoryTable.swift */,
 				8EE1C04523D4D6F700BC7DA1 /* HistoryTableViewCell.swift */,
 				8EE1C04323D4BCED00BC7DA1 /* Session.swift */,
+				8E4BAA70242B41B500CEC587 /* TableViewResultsData.xcdatamodeld */,
 			);
 			path = GikMath;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				8EE1C04823D4DA2100BC7DA1 /* ValueInHistoryTable.swift in Sources */,
 				8EE1C04423D4BCED00BC7DA1 /* Session.swift in Sources */,
 				8EE1C02C23D4703F00BC7DA1 /* AppDelegate.swift in Sources */,
+				8E4BAA72242B41B500CEC587 /* TableViewResultsData.xcdatamodeld in Sources */,
 				8EE1C02E23D4703F00BC7DA1 /* SceneDelegate.swift in Sources */,
 				8EE1C04023D48AEA00BC7DA1 /* StartViewController.swift in Sources */,
 				8EE1C04623D4D6F700BC7DA1 /* HistoryTableViewCell.swift in Sources */,
@@ -350,6 +354,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8E4BAA70242B41B500CEC587 /* TableViewResultsData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8E4BAA71242B41B500CEC587 /* TableViewResultsData.xcdatamodel */,
+			);
+			currentVersion = 8E4BAA71242B41B500CEC587 /* TableViewResultsData.xcdatamodel */;
+			path = TableViewResultsData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8EE1C02023D4703F00BC7DA1 /* Project object */;
 }
