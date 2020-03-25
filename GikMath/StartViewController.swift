@@ -27,7 +27,14 @@ class StartViewController: UIViewController {
         case extreme = "extreme"
     }
     
-    var historyArray : [Math] = []
+    let application = UIApplication.shared.delegate as! AppDelegate
+    
+    var historyTableArray : [Math] = [] {
+        didSet {
+            self.id = historyTableArray.count
+        }
+    }
+    var historyArray : [MathSec] = []
     var counterArray : [Int] = []
     var id = 0
     
@@ -257,6 +264,7 @@ class StartViewController: UIViewController {
     //MARK: check button
     @IBAction func checkButton(_ sender: Any) {
         
+        let math = Math(context: application.persistentContainer.viewContext)
         let generator = UINotificationFeedbackGenerator()
         guard timer != nil else { return }
         
@@ -267,7 +275,12 @@ class StartViewController: UIViewController {
             }
             counterArray.append(counterBeetwenTrueAndFalse)
             generator.notificationOccurred(.success)
-            historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: nil), at: 0)
+            let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error")
+            math.id = Int64(self.id)
+            math.math = string
+            application.saveContext()
+            historyTableArray.append(math)
+            historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: nil), at: 0)
             self.timeArray.append(counter)
             timerStop(tableView: historyTableView)
             
@@ -301,13 +314,23 @@ class StartViewController: UIViewController {
             timer = nil
             switch answerLabel.text {
             case "введите ответ", "":
-                historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
+                let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error" + " " + String(secondCounter))
+                math.id = Int64(self.id)
+                math.math = string
+                application.saveContext()
+                historyTableArray.append(math)
+                historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
                 
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             default:
-                historyArray.insert(Math(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
+                let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error" + " " + String(secondCounter))
+                math.id = Int64(self.id)
+                math.math = string
+                application.saveContext()
+                historyTableArray.append(math)
+                historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
                 
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
@@ -326,7 +349,9 @@ class StartViewController: UIViewController {
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
         startTimer(tableView: historyTableView)
-        self.id += 1
+        for i in historyTableArray {
+            print("id - \(i.id) math - \(i.math!)")
+        }
     }
     
     @IBAction func backspaseButton(_ sender: Any) {
@@ -507,7 +532,6 @@ class StartViewController: UIViewController {
         default:
             return
         }
-        
         countTrueLabel.text? = String(countTrue)
         countFalseLabel.text? = String(countFalse)
         answerLabel.text = "введите ответ"
@@ -557,9 +581,12 @@ class StartViewController: UIViewController {
         self.resetResultsButton.isEnabled = false
     }
     
+    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        historyTableArray = loadFromCoreData()
+        id = historyTableArray.count
         disableNumbersButtons()
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
@@ -577,6 +604,11 @@ class StartViewController: UIViewController {
         avarageTime.text?.removeAll()
         historyTableView.dataSource = self
         historyTableView.delegate = self
+    }
+    func loadFromCoreData() -> [Math] {
+        let context = application.persistentContainer.viewContext
+        let result = try! context.fetch(Math.fetchRequest()) as! [Math]
+        return result
     }
 }
 

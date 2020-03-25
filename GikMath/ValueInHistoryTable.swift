@@ -12,7 +12,7 @@ enum Color {
     case red
     case green
 }
-class Math {
+class MathSec {
     let id : Int
     let value : String
     let color : Color
