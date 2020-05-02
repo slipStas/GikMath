@@ -587,6 +587,12 @@ class StartViewController: UIViewController {
         
         historyTableArray = loadFromCoreData()
         id = historyTableArray.count
+        
+        for i in self.historyTableArray {
+            print(i.math!)
+            
+        }
+        
         disableNumbersButtons()
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
@@ -604,6 +610,7 @@ class StartViewController: UIViewController {
         avarageTime.text?.removeAll()
         historyTableView.dataSource = self
         historyTableView.delegate = self
+        
     }
     func loadFromCoreData() -> [Math] {
         let context = application.persistentContainer.viewContext
