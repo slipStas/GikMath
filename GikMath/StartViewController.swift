@@ -589,7 +589,9 @@ class StartViewController: UIViewController {
         id = historyTableArray.count
         
         for i in self.historyTableArray {
-            print(i.math!)
+            print((i.math ?? "no data") as String)
+            let data = MathSec(id: Int(i.id), value: i.math!, color: .green, time: "0", timeCounter: 0, secondCounter: nil)
+            self.historyArray.append(data)
             
         }
         
