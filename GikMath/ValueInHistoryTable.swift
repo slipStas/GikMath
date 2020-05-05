@@ -8,22 +8,18 @@
 
 import Foundation
 
-enum Color {
-    case red
-    case green
-}
 class MathSec {
     let id : Int
     let value : String
-    let color : Color
+    let correctly : Bool
     let time : String
     let timeCounter : Double
-    let secondCounter : Double?
+    let secondCounter : Double
     
-    init(id:Int, value:String, color:Color, time:String, timeCounter: Double, secondCounter: Double?) {
+    init(id:Int, value:String, correctly:Bool, time:String, timeCounter: Double, secondCounter: Double) {
         self.id = id
         self.value = value
-        self.color = color
+        self.correctly = correctly
         self.time = time
         self.timeCounter = timeCounter
         self.secondCounter = secondCounter

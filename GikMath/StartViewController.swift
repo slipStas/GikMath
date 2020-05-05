@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class StartViewController: UIViewController {
     
@@ -238,6 +239,7 @@ class StartViewController: UIViewController {
         countTrue = 0
         counterArray.removeAll()
         counterBeetwenTrueAndFalse = 0
+        
         if !historyArray.isEmpty {
             historyTableView.beginUpdates()
             for i in 0...historyArray.count - 1 {
@@ -246,6 +248,8 @@ class StartViewController: UIViewController {
             historyArray.removeAll()
             historyTableView.endUpdates()
         }
+        deleteAllData()
+        avarageTime.text?.removeAll()
     }
     
     @IBAction func stopButton(_ sender: Any) {
@@ -275,12 +279,17 @@ class StartViewController: UIViewController {
             }
             counterArray.append(counterBeetwenTrueAndFalse)
             generator.notificationOccurred(.success)
-            let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error")
+            let string = theTaskLabel.text! + " " + answerLabel.text!
             math.id = Int64(self.id)
             math.math = string
+            math.correctly = true
+            math.timeCounter = self.counter
+            math.secondCounter = 0.0
+            math.time = timerLabel.text ?? ""
+            
             application.saveContext()
             historyTableArray.append(math)
-            historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text!, color: .green, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: nil), at: 0)
+            historyArray.insert(MathSec(id: Int(math.id), value: math.math ?? "no math", correctly: math.correctly, time: math.time, timeCounter: math.timeCounter, secondCounter: math.secondCounter), at: 0)
             self.timeArray.append(counter)
             timerStop(tableView: historyTableView)
             
@@ -314,24 +323,34 @@ class StartViewController: UIViewController {
             timer = nil
             switch answerLabel.text {
             case "введите ответ", "":
-                let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error" + " " + String(secondCounter))
+                let string = theTaskLabel.text! + " " + "?"
                 math.id = Int64(self.id)
                 math.math = string
+                math.correctly = false
+                math.timeCounter = self.counter
+                math.secondCounter = secondCounter
+                math.time = timerLabel.text ?? ""
+                
                 application.saveContext()
                 historyTableArray.append(math)
-                historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
-                
+                historyArray.insert(MathSec(id: Int(math.id), value: math.math ?? "no math", correctly: math.correctly, time: math.time, timeCounter: math.timeCounter, secondCounter: math.secondCounter), at: 0)
+
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
             default:
-                let string = theTaskLabel.text! + " " + answerLabel.text! + " " + String(timerLabel.text ?? "timer error" + " " + String(secondCounter))
+                let string = theTaskLabel.text! + " " + answerLabel.text!
                 math.id = Int64(self.id)
                 math.math = string
+                math.correctly = false
+                math.timeCounter = self.counter
+                math.secondCounter = secondCounter
+                math.time = timerLabel.text ?? ""
+                
                 application.saveContext()
                 historyTableArray.append(math)
-                historyArray.insert(MathSec(id: self.id, value: theTaskLabel.text! + " " + answerLabel.text! + " " + "(" + String(result) + ")", color: .red, time: timerLabel.text ?? "timer error", timeCounter: counter, secondCounter: secondCounter), at: 0)
-                
+                historyArray.insert(MathSec(id: Int(math.id), value: math.math ?? "no math", correctly: math.correctly, time: math.time, timeCounter: math.timeCounter, secondCounter: math.secondCounter), at: 0)
+
                 historyTableView.beginUpdates()
                 historyTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .right)
                 historyTableView.endUpdates()
@@ -375,6 +394,19 @@ class StartViewController: UIViewController {
         
         if (sender as AnyObject).titleLabel?.text != nil {
             answerLabel.text! += (sender as AnyObject).titleLabel!.text!
+        }
+    }
+    
+    func deleteAllData() {
+
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let DelAllReqVar = NSBatchDeleteRequest(fetchRequest: NSFetchRequest<NSFetchRequestResult>(entityName: "Math"))
+        do {
+            try managedContext.execute(DelAllReqVar)
+        }
+        catch {
+            print(error)
         }
     }
     
@@ -590,8 +622,9 @@ class StartViewController: UIViewController {
         
         for i in self.historyTableArray {
             print((i.math ?? "no data") as String)
-            let data = MathSec(id: Int(i.id), value: i.math!, color: .green, time: "0", timeCounter: 0, secondCounter: nil)
-            self.historyArray.append(data)
+            print(i.correctly)
+            let data = MathSec(id: Int(i.id), value: i.math ?? "no value", correctly: i.correctly, time: i.time, timeCounter: i.timeCounter, secondCounter: i.secondCounter)
+            self.historyArray.insert(data, at: 0)
             
         }
         
@@ -647,14 +680,14 @@ extension StartViewController: UITableViewDataSource {
             }
         }
         for i in historyArray {
-            totalTime += i.timeCounter + (i.secondCounter ?? 0.0)
+            totalTime += i.timeCounter + i.secondCounter
             count += 1
         }
         
         self.avarageTime.text = decimalToString(counter: avarageTime)
         
-        if historyArray[indexPath.row].secondCounter != nil {
-            cell.historyLabel.text = historyArray[indexPath.row].value + "   " + historyArray[indexPath.row].time + " + " + String(format: "%.2f", historyArray[indexPath.row].secondCounter!)
+        if historyArray[indexPath.row].secondCounter > 0.0 {
+            cell.historyLabel.text = historyArray[indexPath.row].value + " " + "(\(result))" + "   " + historyArray[indexPath.row].time + " + " + String(format: "%.2f", historyArray[indexPath.row].secondCounter)
         } else {
             cell.historyLabel.text = historyArray[indexPath.row].value + "   " + historyArray[indexPath.row].time
         }
@@ -674,10 +707,10 @@ extension StartViewController: UITableViewDataSource {
             self.avarageTime.textColor = #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
         }
         
-        switch historyArray[indexPath.row].color {
-        case .green:
+        switch historyArray[indexPath.row].correctly {
+        case true:
             cell.historyLabel.textColor = #colorLiteral(red: 0.3084011078, green: 0.5618229508, blue: 0, alpha: 1)
-        case .red:
+        case false:
             cell.historyLabel.textColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         }
         return cell

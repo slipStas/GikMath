@@ -19,5 +19,8 @@ extension Math {
 
     @NSManaged public var math: String?
     @NSManaged public var id: Int64
-
+    @NSManaged public var correctly: Bool
+    @NSManaged public var timeCounter: Double
+    @NSManaged public var time: String
+    @NSManaged public var secondCounter: Double
 }
