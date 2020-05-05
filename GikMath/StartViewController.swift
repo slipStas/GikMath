@@ -626,18 +626,26 @@ class StartViewController: UIViewController {
             let data = MathSec(id: Int(i.id), value: i.math ?? "no value", correctly: i.correctly, time: i.time, timeCounter: i.timeCounter, secondCounter: i.secondCounter)
             self.historyArray.insert(data, at: 0)
             
+            switch i.correctly {
+            case true:
+                Session.shared.countTrueAnswers += 1
+            case false:
+                Session.shared.countFalseAnswers += 1
+            }
         }
+        self.countTrue = Session.shared.countTrueAnswers
+        self.countFalse = Session.shared.countFalseAnswers
         
         disableNumbersButtons()
         startStopButton.setTitle("Start", for: .normal)
         theTaskLabel.text = """
-        For starting tap "Start"
+        For starting tap "Start" button
         """
         answerLabel.text?.removeAll()
         avarageTime.text?.removeAll()
         timerLabel.text?.removeAll()
-        countTrueLabel.text?.removeAll()
-        countFalseLabel.text?.removeAll()
+        countTrueLabel.text = String(self.countTrue)
+        countFalseLabel.text = String(self.countFalse)
         levelLabel.text?.removeAll()
         
         historyTableView.rowHeight = 30
