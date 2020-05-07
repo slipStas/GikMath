@@ -51,7 +51,7 @@ class StartViewController: UIViewController {
                     total += i
                     count += 1
                 }
-                print(counterArray)
+                //print(counterArray)
                 let avarage = Double(total) / Double(count)
                 return Double(String(format: "%.2f", avarage))!
             }
@@ -67,24 +67,9 @@ class StartViewController: UIViewController {
                               duration: 0.7,
                               options: .transitionCrossDissolve,
                               animations: {
-                switch self.difficultyLevel {
-                case .easy:
-                    self.levelLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-                case .simple:
-                    self.levelLabel.textColor = #colorLiteral(red: 0, green: 0.5647058824, blue: 0.3176470588, alpha: 1)
-                case .normal:
-                    self.levelLabel.textColor = #colorLiteral(red: 0.5725490196, green: 0.5647058824, blue: 0, alpha: 1)
-                case .medium:
-                    self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.5764705882, blue: 0, alpha: 1)
-                case .hard:
-                    self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.1490196078, blue: 0, alpha: 1)
-                case .veryHard:
-                    self.levelLabel.textColor = #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
-                case .extreme:
-                    self.levelLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.06666666667, blue: 0, alpha: 1)
-                }
+                                self.difficultyColor()
             })
-
+            
             
         }
     }
@@ -158,6 +143,24 @@ class StartViewController: UIViewController {
         counter += 0.01
         startStopButton.setTitle("Stop", for: .normal)
         timerLabel.text = decimalToString(counter: counter)
+    }
+    func difficultyColor() {
+        switch self.difficultyLevel {
+        case .easy:
+            self.levelLabel.textColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        case .simple:
+            self.levelLabel.textColor = #colorLiteral(red: 0, green: 0.5647058824, blue: 0.3176470588, alpha: 1)
+        case .normal:
+            self.levelLabel.textColor = #colorLiteral(red: 0.5725490196, green: 0.5647058824, blue: 0, alpha: 1)
+        case .medium:
+            self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.5764705882, blue: 0, alpha: 1)
+        case .hard:
+            self.levelLabel.textColor = #colorLiteral(red: 1, green: 0.1490196078, blue: 0, alpha: 1)
+        case .veryHard:
+            self.levelLabel.textColor = #colorLiteral(red: 0.5803921569, green: 0.06666666667, blue: 0, alpha: 1)
+        case .extreme:
+            self.levelLabel.textColor = #colorLiteral(red: 0.2666666667, green: 0.06666666667, blue: 0, alpha: 1)
+        }
     }
     func timerStop(tableView: UITableView) {
         tableView.isScrollEnabled = true
@@ -368,9 +371,9 @@ class StartViewController: UIViewController {
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
         startTimer(tableView: historyTableView)
-        for i in historyTableArray {
-            print("id - \(i.id) math - \(i.math!)")
-        }
+//        for i in historyTableArray {
+//            print("id - \(i.id) math - \(i.math!)")
+//        }
     }
     
     @IBAction func backspaseButton(_ sender: Any) {
@@ -621,8 +624,6 @@ class StartViewController: UIViewController {
         id = historyTableArray.count
         
         for i in self.historyTableArray {
-            print((i.math ?? "no data") as String)
-            print(i.correctly)
             let data = MathSec(id: Int(i.id), value: i.math ?? "no value", correctly: i.correctly, time: i.time, timeCounter: i.timeCounter, secondCounter: i.secondCounter)
             self.historyArray.insert(data, at: 0)
             
@@ -651,6 +652,10 @@ class StartViewController: UIViewController {
         historyTableView.rowHeight = 30
         systemMessagesLabel.text?.removeAll()
         avarageTime.text?.removeAll()
+        
+        levelLabel.text = self.difficultyLevel.rawValue
+        self.difficultyColor()
+
         historyTableView.dataSource = self
         historyTableView.delegate = self
         
