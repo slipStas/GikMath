@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class StartViewController: UIViewController {
+class MainViewController: UIViewController {
     
     enum Operation: String {
         case subt = "-"
@@ -665,7 +665,7 @@ class StartViewController: UIViewController {
 }
 
 //MARK: Delegate
-extension StartViewController: UITableViewDelegate {
+extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -673,7 +673,7 @@ extension StartViewController: UITableViewDelegate {
 }
 
 //MARK: DataSourse
-extension StartViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return historyArray.count
