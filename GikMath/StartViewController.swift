@@ -371,9 +371,6 @@ class StartViewController: UIViewController {
         theTaskLabel.text!.removeAll()
         answerLabel.text!.removeAll()
         startTimer(tableView: historyTableView)
-//        for i in historyTableArray {
-//            print("id - \(i.id) math - \(i.math!)")
-//        }
     }
     
     @IBAction func backspaseButton(_ sender: Any) {
